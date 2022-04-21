@@ -6,9 +6,11 @@ const port = process.env.PORT || 5000;
 
 //letting app use middleware cors
 app.use(cors());
+app.use(express.json());
 
 //its like the route/api/endpoint
 app.get('/', (req, res) => {
+    
     res.send('Hello World1')
 })
 
@@ -44,6 +46,15 @@ app.get('/users/:id', (req, res) => {
   //Middleware is software that lies between an operating system and the applications running on it. Essentially functioning as hidden translation layer, middleware enables communication and data management for distributed applications.
   //install cors on server side
 
+// in case of post the data sent in body of req from client side in json format. that is why the body is required to be parsed. We install body parser for that or we can use express.json() as middleware
+//this post method gets a req from the client side for name and email value to be added. In the server side we add an id to it and push it to the users array and send it back to the client side as the respond /res
+app.post('/user', (req, res) => {
+    console.log('request', req.body);
+    const user = req.body;
+    user.id = users.length + 1;
+    users.push(user);
+    res.send(user);
+})
 app.get('/fruits', (req, res) => {
     res.send(['mango','apple','oranges'])
 })
